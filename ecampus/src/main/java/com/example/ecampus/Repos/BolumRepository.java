@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BolumRepository extends JpaRepository<Bolum,Long> {
 
+
+    Bolum findBybolumAdi(String bolumAdi);
 }

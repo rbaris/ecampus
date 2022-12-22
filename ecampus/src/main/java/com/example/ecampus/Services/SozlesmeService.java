@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,19 @@ public class SozlesmeService {
     public Sozlesme getSozlesme(Long id)
     {
         return sozlesmeRepository.findById(id).get();
+    }
+
+    public Optional<Sozlesme> deleteSozlesme(Long id){
+        sozlesmeRepository.deleteById(id);
+        var isRemoved = sozlesmeRepository.findById(id);
+        return isRemoved;
+    }
+    public Optional<Sozlesme> updateSozlesme(Long id, Sozlesme newSozlesme){
+        return sozlesmeRepository.findById(id)
+                .map(sozlesme -> {sozlesme.setExpDate(newSozlesme.getExpDate());
+                sozlesme.setTitle(newSozlesme.getTitle());
+                return sozlesmeRepository.save(sozlesme);
+        });
     }
 
 

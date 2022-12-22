@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DersRepository extends JpaRepository<Ders,Long> {
 
+    Ders findBydersAdi(String dersname);
 }

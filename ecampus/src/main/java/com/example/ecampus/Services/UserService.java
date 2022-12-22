@@ -100,4 +100,28 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("Username not found!");
         return user.get();
     }
+
+    public Optional<User> deleteUser(Long id){
+        userRepository.deleteById(id);
+        var isRemoved = userRepository.findById(id);
+        return isRemoved;
+    }
+
+    public Optional<User> updateUser(Long id, User newUser){
+       /* Optional<User> u  = userRepository.findById(id);
+        User tempUser = new User();
+        tempUser = u;
+        user = tempUser ;
+        userRepository.save(user);*/
+        return userRepository.findById(id)
+                .map(user -> {user.setUsername(newUser.getUsername());
+                    user.setSozlesme(newUser.getSozlesme());
+                    user.setPassword(newUser.getPassword());
+                    user.setRoles(newUser.getRoles());
+                    user.setEmail(newUser.getEmail());
+                    user.setOkulKimlikNo(newUser.getOkulKimlikNo());
+                    user.setTelno(newUser.getTelno());
+                    return userRepository.save(user);
+                });
+    }
 }
