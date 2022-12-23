@@ -19,6 +19,9 @@ public class UserRoleService {
         return  role;
     }
 
+    public Optional<UserRole> getRolewithId(Long id){
+        return userRoleRepository.findById(id);
+    }
     public List<UserRole> getAll()
     {
 

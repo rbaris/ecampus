@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EnstituRepository extends JpaRepository<Enstitu,Long> {
 
+    Enstitu findByenstituAdi(String name);
 }

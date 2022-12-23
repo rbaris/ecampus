@@ -38,7 +38,7 @@ public class EcampusApplication {
 
             userService.saveUser(new User(null,"baris","baris@email.com","12345","02668356801",new Sozlesme(),"",new ArrayList<>()));
 
-        //sozlesme ekle sonra user ekle çalıştır. Şu an çalışmaz.
+    //delete metotunda sorun olabilir.
             userService.addSozlesmeToUser("baris","Çalışma İzni");
             userService.addRoleToUser("baris", "ROLE_USER");
             userService.addRoleToUser("baris", "ROLE_ADMIN");

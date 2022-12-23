@@ -2,6 +2,8 @@ package com.example.ecampus.Services;
 
 import com.example.ecampus.Models.Ders;
 import com.example.ecampus.Models.DersRole;
+import com.example.ecampus.Repos.BolumRepository;
+import com.example.ecampus.Repos.BolumRoleRepository;
 import com.example.ecampus.Repos.DersRepository;
 import com.example.ecampus.Repos.DersRoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,5 +52,6 @@ public class DersService {
         DersRole dersRole = dersRoleRepository.findBydersRoleName(rolename);
         ders.setDersRole(dersRole);
     }
+
 
 }

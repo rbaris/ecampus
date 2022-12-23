@@ -23,6 +23,10 @@ public class BolumRoleService {
     public List<BolumRole> getAllBolumRoles(){
         return bolumRoleRepository.findAll();
     }
+
+    public Optional<BolumRole> getRolewithId(Long id){
+        return bolumRoleRepository.findById(id);
+    }
     public Optional<BolumRole> deleteBolumRole(Long id){
         bolumRoleRepository.deleteById(id);
         var isRemoved = bolumRoleRepository.findById(id);

@@ -29,11 +29,14 @@ public class SecurityConfiguration {
 
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/h2-console/**").permitAll();;
+                .antMatchers("/h2-console/**").permitAll()
+                        .antMatchers("/users").permitAll()
+                        .antMatchers("/roles").permitAll()
+                        .antMatchers("/sozlesmeler").permitAll();
 
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/login").permitAll();
+        /*http.authorizeRequests().antMatchers(HttpMethod.GET, "/login").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ROLE_USER");
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/**").hasAnyAuthority("ROLE_ADMIN");*/
 
         http.authorizeRequests().anyRequest().authenticated();
         http.sessionManagement()
