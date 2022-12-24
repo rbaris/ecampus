@@ -1,5 +1,7 @@
 package com.example.ecampus.Security;
 
+import com.example.ecampus.Filters.CustomAuthenticationFilter;
+import com.example.ecampus.Filters.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -29,19 +32,21 @@ public class SecurityConfiguration {
 
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                        .antMatchers("/users").permitAll()
-                        .antMatchers("/roles").permitAll()
-                        .antMatchers("/sozlesmeler").permitAll();
+                .antMatchers("/h2-console/**").permitAll();
+                /*.antMatchers("/users").permitAll()
+                .antMatchers("/roles").permitAll()
+                .antMatchers("/sozlesmeler").permitAll();  */
 
-        /*http.authorizeRequests().antMatchers(HttpMethod.GET, "/login").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/login").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ROLE_USER");
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/**").hasAnyAuthority("ROLE_ADMIN");*/
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/**").hasAnyAuthority("ROLE_ADMIN");
 
-        http.authorizeRequests().anyRequest().authenticated();
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+
+        http.addFilter(new CustomAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))));
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

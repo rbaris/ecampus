@@ -1,7 +1,6 @@
 package com.example.ecampus.Services;
 
 import com.example.ecampus.Models.DersRole;
-import com.example.ecampus.Repos.DersRepository;
 import com.example.ecampus.Repos.DersRoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +21,9 @@ public class DersRoleService {
     public DersRole saveDersRole(DersRole dersRole){
         dersRoleRepository.save(dersRole);
         return dersRole;
+    }
+    public Optional<DersRole> getDersrolewithid(Long id){
+        return dersRoleRepository.findById(id);
     }
     public List<DersRole> getdersRoleList(){
         return dersRoleRepository.findAll();

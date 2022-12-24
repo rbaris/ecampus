@@ -56,8 +56,6 @@ public class UserController {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
-
-
     @Data
     class UserRoleForm
     {

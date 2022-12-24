@@ -4,6 +4,7 @@ import com.example.ecampus.Models.Sozlesme;
 import com.example.ecampus.Models.User;
 import com.example.ecampus.Models.UserRole;
 import com.example.ecampus.Services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.ArrayList;
 
 @SpringBootApplication
+@Slf4j
 public class EcampusApplication {
 
     public static void main(String[] args) {
@@ -25,7 +27,7 @@ public class EcampusApplication {
         return  new BCryptPasswordEncoder();
     }
 
-
+/*
     @Bean
     CommandLineRunner run(UserService userService) {
         return args ->
@@ -33,6 +35,8 @@ public class EcampusApplication {
             userService.saveRole(new UserRole(null, "ROLE_USER"));
             userService.saveRole(new UserRole(null, "ROLE_MANAGER"));
             userService.saveRole(new UserRole(null, "ROLE_ADMIN"));
+            userService.saveRole(new UserRole(null,"ROLE_OGRENCİ"));
+            userService.saveRole(new UserRole(null,"ROLE_OGRENCİ_İSLERİ"));
             userService.saveSozlesme(new Sozlesme(null,"İş Sağlığı ve Güvenliği","11.03.2025"));
             userService.saveSozlesme(new Sozlesme(null,"Çalışma İzni","20.05.2026")) ;
 
@@ -44,5 +48,5 @@ public class EcampusApplication {
             userService.addRoleToUser("baris", "ROLE_ADMIN");
 
         };
-    }
+    }*/
 }
