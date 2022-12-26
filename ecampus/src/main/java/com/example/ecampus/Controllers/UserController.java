@@ -1,5 +1,6 @@
 package com.example.ecampus.Controllers;
 
+import com.example.ecampus.DTOs.UserDTO;
 import com.example.ecampus.Models.User;
 import com.example.ecampus.Services.SozlesmeService;
 import com.example.ecampus.Services.UserRoleService;
@@ -26,12 +27,20 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserForm> getUserwithId(@RequestBody Long id){
+        User newuser = userService.getUserById(id);
+        UserForm userForm = new UserForm(newuser.username, newuser.email, newuser.telno);
+        return ResponseEntity.ok(userForm);
+    }
+
     @PostMapping()
-    public ResponseEntity<User> saveUser(@RequestBody User user){
+    public ResponseEntity<UserForm> saveUser(@RequestBody User user){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/users").toUriString());
         User new_user = userService.saveUser(user);
         System.out.println(new_user);
-        return ResponseEntity.created(uri).body(new_user);
+        UserForm userForm = new UserForm(new_user.username,new_user.email,new_user.telno);
+        return ResponseEntity.created(uri).body(userForm);
     }
 
     @PostMapping("/roles")
@@ -61,5 +70,18 @@ public class UserController {
     {
         private String username;
         private String roleName;
+    }
+
+    @Data
+    class UserForm{
+        public String username;
+        public String email;
+        public String telno;
+
+        UserForm(String username,String email,String telno){
+            this.username = username;
+            this.email = email;
+            this.telno = telno;
+        }
     }
 }

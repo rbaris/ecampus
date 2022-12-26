@@ -37,8 +37,8 @@ public class SozlesmeService {
     }
 
     public Optional<Sozlesme> deleteSozlesme(Long id){
-        sozlesmeRepository.deleteById(id);
         var isRemoved = sozlesmeRepository.findById(id);
+        sozlesmeRepository.deleteById(id);
         return isRemoved;
     }
     public Optional<Sozlesme> updateSozlesme(Long id, Sozlesme newSozlesme){

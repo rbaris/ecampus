@@ -24,6 +24,6 @@ public class BolumRoleController {
     }
     @PostMapping()
     public ResponseEntity<BolumRole> addBolumRole(@RequestBody BolumRole bolumRole){
-        return ResponseEntity.ok(bolumRoleService.saveBolumRole(bolumRole));
+        return ResponseEntity.ok(bolumRoleService.savebolumRole(bolumRole));
     }
 }

@@ -18,8 +18,8 @@ public class Ders {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "bolumID")
-    Bolum bolum;
+    public Bolum bolum;
 
     @OneToOne
-    DersRole dersRole;
+    public DersRole dersRole;
 }

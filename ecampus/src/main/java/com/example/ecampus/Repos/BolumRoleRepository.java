@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BolumRoleRepository extends JpaRepository<BolumRole,Long> {
 
+    BolumRole findBybolumRoleAdi(String rolename);
 }

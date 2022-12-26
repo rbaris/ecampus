@@ -1,8 +1,10 @@
 package com.example.ecampus.Services;
 
 import com.example.ecampus.Models.Bolum;
+import com.example.ecampus.Models.BolumRole;
 import com.example.ecampus.Models.Ders;
 import com.example.ecampus.Repos.BolumRepository;
+import com.example.ecampus.Repos.BolumRoleRepository;
 import com.example.ecampus.Repos.DersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ public class BolumService {
 
     private final BolumRepository bolumRepository;
     private final DersRepository dersRepository;
+    private final BolumRoleRepository bolumRoleRepository;
 
     public Bolum addBolum(Bolum bolum){
         return bolumRepository.save(bolum);
@@ -47,8 +50,9 @@ public class BolumService {
     }
 
     public Optional<Bolum> deleteBolum(Long id){
-        bolumRepository.deleteById(id);
+
         var isRemoved = bolumRepository.findById(id);
+        bolumRepository.deleteById(id);
         return isRemoved;
     }
 
@@ -57,8 +61,16 @@ public class BolumService {
         log.info("{} dersi {} bölüme eklendi...", dersname,bolumName);
         Bolum bolum = getBolumwithName(bolumName);
         Ders ders = dersRepository.findBydersAdi(dersname);
-        bolum.getDersListesi().add(ders);
+        if(ders.dersRole.dersRoleName.equals("Lisans") && bolum.getBolumRole().bolumRoleAdi.equals("Fakülte")) bolum.getDersListesi().add(ders);
+        else if(ders.dersRole.dersRoleName.equals("Yüksek Lisans") && bolum.getBolumRole().bolumRoleAdi.equals("Enstitü")) bolum.getDersListesi().add(ders);
+        else new Exception("ders eklenemedi.");
+    }
 
+    public void addRoletoBolum(String rolename,String bolumname){
+        log.info("{} dersi {} programı dersidir...",bolumname,rolename);
+        Bolum bolum = getBolumwithName(bolumname);
+        BolumRole bolumRole = bolumRoleRepository.findBybolumRoleAdi(rolename);
+        bolum.setBolumRole(bolumRole);
     }
 
 }

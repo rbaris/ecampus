@@ -1,5 +1,6 @@
 package com.example.ecampus.Services;
 
+import com.example.ecampus.DTOs.UserDTO;
 import com.example.ecampus.Models.Sozlesme;
 import com.example.ecampus.Models.User;
 import com.example.ecampus.Models.UserRole;
@@ -51,7 +52,7 @@ public class UserService implements UserDetailsService {
     }
     public User getUser(String username)
     {
-        return userRepository.findByUsername(username);
+        return userRepository.findByusername(username);
     }
     public UserRole saveRole(UserRole role)
     {
@@ -81,17 +82,17 @@ public class UserService implements UserDetailsService {
         log.info("Adding {} sozlesme to user {}...", sozlesmeTitle,username);
         User user = getUser(username);
         Sozlesme sozlesme = sozlesmeRepository.findBytitle(sozlesmeTitle);
-        user.sozlesme = sozlesme;
+        user.sozlesmeList.add(sozlesme);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByusername(username);
         if(user == null)
             throw new UsernameNotFoundException("Username not found!");
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.getRoles().forEach(userRole -> authorities.add(new SimpleGrantedAuthority(userRole.roleName)));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),authorities);
     }
 
     public User getUserById(Long id) {
@@ -102,8 +103,8 @@ public class UserService implements UserDetailsService {
     }
 
     public Optional<User> deleteUser(Long id){
-        userRepository.deleteById(id);
         var isRemoved = userRepository.findById(id);
+        userRepository.deleteById(id);
         return isRemoved;
     }
 
@@ -115,7 +116,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);*/
         return userRepository.findById(id)
                 .map(user -> {user.setUsername(newUser.getUsername());
-                    user.setSozlesme(newUser.getSozlesme());
+                    user.setSozlesmeList(newUser.getSozlesmeList());
                     user.setPassword(newUser.getPassword());
                     user.setRoles(newUser.getRoles());
                     user.setEmail(newUser.getEmail());

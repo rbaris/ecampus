@@ -29,8 +29,8 @@ public class DersRoleService {
         return dersRoleRepository.findAll();
     }
     public Optional<DersRole> deleteDersRole(Long id){
-        dersRoleRepository.deleteById(id);
         var isRemoved = dersRoleRepository.findById(id);
+        dersRoleRepository.deleteById(id);
         return isRemoved;
     }
     public Optional<DersRole> updateDersRole(Long id, DersRole newDersRole){

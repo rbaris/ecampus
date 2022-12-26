@@ -18,4 +18,8 @@ public class UserRole {
     public Long roleID;
     public String roleName;
 
+    public String toString(){
+        return roleName;
+    }
+
 }

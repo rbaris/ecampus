@@ -42,8 +42,8 @@ public class DersService {
         });
     }
     public Optional<Ders> deleteDers(Long id){
-        dersRepository.deleteById(id);
         var isRemoved = dersRepository.findById(id);
+        dersRepository.deleteById(id);
         return isRemoved;
     }
     public void addRoletoDers(String rolename,String dersAdi){

@@ -19,4 +19,8 @@ public class Bolum {
     List<Ders> dersListesi;
     @OneToOne
     BolumRole bolumRole;
+
+    public String toString(){
+        return bolumRole.bolumRoleAdi;
+    }
 }

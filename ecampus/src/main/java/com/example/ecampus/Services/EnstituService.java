@@ -2,6 +2,7 @@ package com.example.ecampus.Services;
 
 import com.example.ecampus.Models.Bolum;
 import com.example.ecampus.Models.Enstitu;
+import com.example.ecampus.Models.Fakulte;
 import com.example.ecampus.Repos.BolumRepository;
 import com.example.ecampus.Repos.EnstituRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,13 @@ public class EnstituService {
         Bolum bolum = bolumRepository.findBybolumAdi(bolumadi);
         enstitu.getBolumListesi().add(bolum);
     }
+    public void addBolumtoEnsitu(String bolumAdi,String enstituAdi)throws Exception{
+        log.info("{} bölümü {} fakülteye eklendi...", bolumAdi,enstituAdi);
+        Enstitu enstitu = getEnstituwithName(enstituAdi);
+        Bolum bolum = bolumRepository.findBybolumAdi(bolumAdi);
+        if(bolum.toString().equals("Ensitü")) enstitu.getBolumListesi().add(bolum);
+        else new Exception("bolum enstituye eklenemedi.");
+    }
     public Optional<Enstitu> updateEnstitu(Long id, Enstitu newEnstitu){
         return enstituRepository.findById(id).map(enstitu -> {
             enstitu.setEnstituAdi(newEnstitu.getEnstituAdi());
@@ -46,8 +54,8 @@ public class EnstituService {
         });
     }
     public Optional<Enstitu> deleteEnstitu(Long id){
-        enstituRepository.deleteById(id);
         var isRemoved = enstituRepository.findById(id);
+        enstituRepository.deleteById(id);
         return isRemoved;
     }
 

@@ -44,12 +44,15 @@ public class DersKayitService {
     public void addOnaylayantoDersKaydi(Long dersKayitID,String username) throws ClassNotFoundException {
         DersKayit dersKayit = getDersKaydi(dersKayitID);
         User onaylayanUser= userService.getUser(username);
-        dersKayit.onaylayanUser = onaylayanUser;
+        if(onaylayanUser.getRoles().toString().equals("ROLE_OGRENCI_ISLERI"))
+            dersKayit.onaylayanUser = onaylayanUser;
+        else new Exception("işlem geçersiz ders onaylanmadı.");
     }
     public void addKaydedilecekUsertoDersKaydi(Long dersKayitID,String username) throws ClassNotFoundException {
         DersKayit dersKayit = getDersKaydi(dersKayitID);
         User kaydedilecekUser = userService.getUser(username);
-        dersKayit.dersinOgrencisi = kaydedilecekUser;
+        if(kaydedilecekUser.getRoles().toString().equals("ROLE_OGRENCI")) dersKayit.dersinOgrencisi = kaydedilecekUser;
+        else new Exception("işlem geçersiz öğrenci atanamadı.");
     }
 
     public Optional<DersKayit> updateDersKayit(Long id, DersKayit newDersKayit){
@@ -63,8 +66,8 @@ public class DersKayitService {
     }
 
     public Optional<DersKayit> updateDersKaydi(Long id){
-        dersKayitRepository.deleteById(id);
         var isRemoved = dersKayitRepository.findById(id);
+        dersKayitRepository.deleteById(id);
         return isRemoved;
     }
     public DersKayit addDersKaydi(DersKayit dersKayit){

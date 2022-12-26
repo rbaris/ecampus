@@ -42,7 +42,8 @@ public class FakulteService {
         log.info("{} bölümü {} fakülteye eklendi...", bolumAdi,fakulteAdi);
         Fakulte fakulte = getFakultewithName(fakulteAdi);
         Bolum bolum = bolumRepository.findBybolumAdi(bolumAdi);
-        fakulte.getBolumListesi().add(bolum);
+        if(bolum.toString().equals("Fakülte"))fakulte.getBolumListesi().add(bolum);
+        else new Exception("bölüm fakülteye eklenemedi.");
     }
     public Optional<Fakulte> updateFakulte(Long id, Fakulte newFakulte){
         return fakulteRepository.findById(id)
@@ -52,8 +53,8 @@ public class FakulteService {
                 });
     }
     public Optional<Fakulte> deleteFakulte(Long id){
-        fakulteRepository.deleteById(id);
         var isRemoved = fakulteRepository.findById(id);
+        fakulteRepository.deleteById(id);
         return isRemoved;
     }
 

@@ -17,7 +17,7 @@ import java.util.Optional;
 public class BolumRoleService {
     BolumRoleRepository bolumRoleRepository;
 
-    public BolumRole saveBolumRole(BolumRole bolumRole){
+    public BolumRole savebolumRole(BolumRole bolumRole){
         return bolumRoleRepository.save(bolumRole);
     }
     public List<BolumRole> getAllBolumRoles(){
@@ -28,8 +28,8 @@ public class BolumRoleService {
         return bolumRoleRepository.findById(id);
     }
     public Optional<BolumRole> deleteBolumRole(Long id){
-        bolumRoleRepository.deleteById(id);
         var isRemoved = bolumRoleRepository.findById(id);
+        bolumRoleRepository.deleteById(id);
         return isRemoved;
     }
     public Optional<BolumRole> updateBolumRole(Long id, BolumRole newBolumRole){

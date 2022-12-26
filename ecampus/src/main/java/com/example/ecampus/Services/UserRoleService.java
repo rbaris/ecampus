@@ -28,8 +28,8 @@ public class UserRoleService {
         return userRoleRepository.findAll();
     }
     public Optional<UserRole> deleteRole(Long id){
-        userRoleRepository.deleteById(id);
         var isRemoved = userRoleRepository.findById(id);
+        userRoleRepository.deleteById(id);
         return isRemoved;
     }
 
