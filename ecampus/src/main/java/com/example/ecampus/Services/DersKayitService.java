@@ -6,11 +6,13 @@ import com.example.ecampus.Models.User;
 import com.example.ecampus.Repos.DersKayitRepository;
 import com.example.ecampus.Repos.DersRepository;
 import com.example.ecampus.Repos.UserRepository;
+import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,52 +27,88 @@ public class DersKayitService {
     private final UserService userService;
     private final DersKayitRepository dersKayitRepository;
 
-    public DersKayit getDersKayitlari(){
-        return (DersKayit) dersKayitRepository.findAll();
+    public List<DersKayit> getDersKayitlari(){
+        return dersKayitRepository.findAll();
     }
-    public DersKayit getDersKaydi(Long id) throws ClassNotFoundException {
+    public Optional<DersKayit> getDersKayit(Long id) throws ClassNotFoundException {
         Optional<DersKayit> dersKayit = dersKayitRepository.findById(id);
         if(dersKayit == null) throw new ClassNotFoundException("Ders kaydı bulunamadı...");
-        return dersKayit.get();
+
+        return Optional.of(dersKayit.get());
         //return dersKayitRepository.findById(id);
     }
-    public void addDerstoDersKaydi(Long dersKayitID,String dersAdi) throws ClassNotFoundException {
 
-        DersKayit dersKayit = getDersKaydi(dersKayitID);
-        Ders ders = dersService.getDerswithName(dersAdi);
-        dersKayit.kaydedilecekDers = ders;
+    public Ders addDerstoDersKayit(Long dersKayitID,Long id) throws ClassNotFoundException {
+
+        Optional<DersKayit> dersKayit = getDersKayit(dersKayitID);
+        Ders ders = dersService.getDersById(id);
+        if(dersKayit == null) throw new ClassNotFoundException("Ders kaydı bulunamadı...");
+
+        dersKayit.get().kaydedilecekDers=ders;
+        return ders;
 
     }
-    public void addOnaylayantoDersKaydi(Long dersKayitID,String username) throws ClassNotFoundException {
-        DersKayit dersKayit = getDersKaydi(dersKayitID);
-        User onaylayanUser= userService.getUser(username);
-        if(onaylayanUser.getRoles().toString().equals("ROLE_OGRENCI_ISLERI"))
+    public DersKayit addOnaylayantoDersKayit(Long dersKayitID,Long id) throws ClassNotFoundException {
+        DersKayit dersKayit = dersKayitRepository.findBydersKayitID(dersKayitID);
+        User onaylayanUser= userService.getUserById(id);
+        if(onaylayanUser.getRoles().toString().equals("ROLE_OGRENCI_ISLERI")) {
             dersKayit.onaylayanUser = onaylayanUser;
+            dersKayit.setDersKayitDurum(Boolean.TRUE);
+            dersKayitRepository.save(dersKayit);
+            return dersKayit;
+        }
         else new Exception("işlem geçersiz ders onaylanmadı.");
+        return null;
     }
-    public void addKaydedilecekUsertoDersKaydi(Long dersKayitID,String username) throws ClassNotFoundException {
-        DersKayit dersKayit = getDersKaydi(dersKayitID);
-        User kaydedilecekUser = userService.getUser(username);
-        if(kaydedilecekUser.getRoles().toString().equals("ROLE_OGRENCI")) dersKayit.dersinOgrencisi = kaydedilecekUser;
+    public DersKayit addKaydedilecekUsertoDersKayit(Long dersKayitID,Long id) throws ClassNotFoundException {
+        DersKayit dersKayit = dersKayitRepository.findBydersKayitID(dersKayitID);
+        User kaydedilecekUser = userService.getUserById(id);
+        if(kaydedilecekUser.getRoles().toString().equals("ROLE_OGRENCI"))
+        {
+            dersKayit.dersinOgrencisi = kaydedilecekUser;
+            dersKayitRepository.save(dersKayit);
+            return dersKayit;
+        }
         else new Exception("işlem geçersiz öğrenci atanamadı.");
+        return null;
     }
 
-    public Optional<DersKayit> updateDersKayit(Long id, DersKayit newDersKayit){
+    public Optional<DersKayit> updateDersKayitOgr(Long id, DersKayit newDersKayit)
+    {
        return dersKayitRepository.findById(id)
                .map(dersKayit -> {
                    dersKayit.setKaydedilecekDers(newDersKayit.getKaydedilecekDers());
-                   dersKayit.setOnaylayanUser(newDersKayit.getOnaylayanUser());
-                   dersKayit.setDersinOgrencisi(newDersKayit.getDersinOgrencisi());
                    return dersKayitRepository.save(dersKayit);
                });
     }
 
-    public Optional<DersKayit> updateDersKaydi(Long id){
+    public Optional<DersKayit> updateDersKayitOisleri(Long id, DersKayit newDersKayit){
+        return dersKayitRepository.findById(id)
+                .map(dersKayit -> {
+                    dersKayit.setKaydedilecekDers(newDersKayit.getKaydedilecekDers());
+                    dersKayit.setOnaylayanUser(newDersKayit.getOnaylayanUser());
+                    dersKayit.setDersinOgrencisi(newDersKayit.getDersinOgrencisi());
+                    return dersKayitRepository.save(dersKayit);
+                });
+    }
+
+    public Optional<DersKayit> deleteDersKayit(Long id){
         var isRemoved = dersKayitRepository.findById(id);
         dersKayitRepository.deleteById(id);
         return isRemoved;
     }
-    public DersKayit addDersKaydi(DersKayit dersKayit){
+    public DersKayit addDersKayit(DersKayit dersKayit){
         return dersKayitRepository.save(dersKayit);
+    }
+
+    public List<DersKayit> findDersKayitByID(Long id)
+    {
+        return dersKayitRepository.findAllByDersinOgrencisi_userID(id);
+    }
+
+
+    public List<DersKayit> findDersKayitToOgrenci(Long id)
+    {
+     return dersKayitRepository.findAllByDersinOgrencisi_userID(id);
     }
 }

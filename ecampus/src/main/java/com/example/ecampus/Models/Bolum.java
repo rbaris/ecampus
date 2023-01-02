@@ -21,6 +21,6 @@ public class Bolum {
     BolumRole bolumRole;
 
     public String toString(){
-        return bolumRole.bolumRoleAdi;
+        return this.bolumRole.bolumRoleAdi;
     }
 }

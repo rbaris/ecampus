@@ -32,15 +32,64 @@ public class SecurityConfiguration {
         http.headers().frameOptions().disable();
         http.authorizeRequests().and().formLogin();
         http.authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll();
                 /*.antMatchers("/users").permitAll()
                 .antMatchers("/roles").permitAll()
                 .antMatchers("/sozlesmeler").permitAll();  */
 
+        //http.authorizeRequests().antMatchers("/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/login").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ROLE_USER");
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers( "/dersler").hasAnyAuthority("ROLE_USER","ROLE_ADMIN");
+
+        http.authorizeRequests().antMatchers( "/users").hasAnyAuthority("ROLE_USER","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers( "/users/**").hasAnyAuthority("ROLE_ADMIN","ROLE_USER");
+        http.authorizeRequests().antMatchers( "/users/rolename").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers( "/users/rolename/**").hasAnyAuthority("ROLE_ADMIN");
+
+        http.authorizeRequests().antMatchers( "/roles").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers( "/roles/**").hasAnyAuthority("ROLE_ADMIN");
+
+        http.authorizeRequests().antMatchers( "/dersroles").hasAnyAuthority("ROLE_ADMIN","ROLE_ENSTITU_YONETICI","ROLE_FAKULTE_YONETICI");
+        http.authorizeRequests().antMatchers( "/dersroles/**").hasAnyAuthority("ROLE_ADMIN","ROLE_ENSTITU_YONETICI","ROLE_FAKULTE_YONETICI");
+        http.authorizeRequests().antMatchers( "/bolumroles/**").hasAnyAuthority("ROLE_ADMIN","ROLE_ENSTITU_YONETICI","ROLE_FAKULTE_YONETICI");
+        http.authorizeRequests().antMatchers( "/bolumroles").hasAnyAuthority("ROLE_ADMIN","ROLE_ENSTITU_YONETICI","ROLE_FAKULTE_YONETICI");
+
+
+        http.authorizeRequests().antMatchers( "/fakulteler").hasAnyAuthority("ROLE_SISTEM_YONETICISI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers( "/fakulteler/**").hasAnyAuthority("ROLE_SISTEM_YONETICISI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/fakulteler").hasAnyAuthority("ROLE_FAKULTE_YONETICI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/fakulteler").hasAnyAuthority("ROLE_FAKULTE_YONETICI","ROLE_ADMIN");
+
+
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/enstituler").hasAnyAuthority("ROLE_ENSTITU_YONETICI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers( "/enstituler").hasAnyAuthority("ROLE_SISTEM_YONETICISI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers( "/enstituler/**").hasAnyAuthority("ROLE_SISTEM_YONETICISI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/enstituler/**").hasAnyAuthority("ROLE_ENSTITU_YONETICI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/enstituler/**").hasAnyAuthority("ROLE_ENSTITU_YONETICI","ROLE_ADMIN");
+
+
+        http.authorizeRequests().antMatchers( "/bolumler/**").hasAnyAuthority("ROLE_FAKULTE_YONETICI","ROLE_ENSTITU_YONETICI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers( "/bolumler").hasAnyAuthority("ROLE_FAKULTE_YONETICI","ROLE_ENSTITU_YONETICI","ROLE_ADMIN");
+
+        http.authorizeRequests().antMatchers( "/dersler/**").hasAnyAuthority("ROLE_FAKULTE_YONETICI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers( "/dersler").hasAnyAuthority("ROLE_FAKULTE_YONETICI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers( "/dersler/**").hasAnyAuthority("ROLE_ENSTITU_YONETICI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers( "/dersler").hasAnyAuthority("ROLE_ENSTITU_YONETICI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/dersler").hasAnyAuthority("ROLE_OGRENCI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/dersler/**").hasAnyAuthority("ROLE_OGRENCI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/dersler").hasAnyAuthority("ROLE_OGRENCI_ISLERI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/dersler/**").hasAnyAuthority("ROLE_OGRENCI_ISLERI","ROLE_ADMIN");
+
+
+
+        http.authorizeRequests().antMatchers("/derskayitlari").hasAnyAuthority("ROLE_OGRENCI","ROLE_ADMIN","ROLE_OGRENCI_ISLERI");
+        http.authorizeRequests().antMatchers("/derskayitlari/**").hasAnyAuthority("ROLE_OGRENCI","ROLE_ADMIN","ROLE_OGRENCI_ISLERI");
+        //http.authorizeRequests().antMatchers("/derskayitlari").hasAnyAuthority("ROLE_OGRENCI_ISLERI","ROLE_ADMIN");
+        //http.authorizeRequests().antMatchers("/derskayitlari/**").hasAnyAuthority("ROLE_OGRENCI_ISLERI","ROLE_ADMIN");
+
+
+
 
 
         http.authorizeRequests().anyRequest().authenticated();

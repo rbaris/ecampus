@@ -17,4 +17,6 @@ public class BolumRole {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long bolumRoleID;
     public String bolumRoleAdi;
+
+
 }

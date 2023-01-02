@@ -1,5 +1,6 @@
 package com.example.ecampus.Services;
 
+import com.example.ecampus.Models.Bolum;
 import com.example.ecampus.Models.BolumRole;
 import com.example.ecampus.Repos.BolumRoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +16,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class BolumRoleService {
-    BolumRoleRepository bolumRoleRepository;
+    private final BolumRoleRepository bolumRoleRepository;
 
-    public BolumRole savebolumRole(BolumRole bolumRole){
-        return bolumRoleRepository.save(bolumRole);
+    public BolumRole saveBolumRole(BolumRole bolumRole){
+        bolumRoleRepository.save(bolumRole);
+        return bolumRole;
     }
     public List<BolumRole> getAllBolumRoles(){
         return bolumRoleRepository.findAll();
@@ -26,6 +28,7 @@ public class BolumRoleService {
 
     public Optional<BolumRole> getRolewithId(Long id){
         return bolumRoleRepository.findById(id);
+
     }
     public Optional<BolumRole> deleteBolumRole(Long id){
         var isRemoved = bolumRoleRepository.findById(id);

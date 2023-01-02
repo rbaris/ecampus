@@ -59,4 +59,26 @@ public class EnstituService {
         return isRemoved;
     }
 
+
+    public List<Bolum> getBolumByEnstituId(Long id)
+    {
+        Optional<Enstitu> enstitu=enstituRepository.findById(id);
+        return enstitu.orElseThrow().getBolumListesi();
+    }
+    public void addBolumtoEnstitu(String bolumAdi,Long id){
+        log.info("{} bölümü {} fakülteye eklendi...", bolumAdi,id);
+        Optional<Enstitu> enstitu = getEnstitubyId(id);
+        Bolum bolum = bolumRepository.findBybolumAdi(bolumAdi);
+        if(bolum.toString().equals("Fakülte"))enstitu.orElseThrow().getBolumListesi().add(bolum);
+        else new Exception("bölüm fakülteye eklenemedi.");
+    }
+    public Optional<Enstitu> deleteEnstituByBolumId(Long id,Long silinenId)
+    {
+
+        Optional<Enstitu> enstitu=enstituRepository.findById(id);
+        Optional <Bolum> bolum =bolumRepository.findById(silinenId);
+        enstitu.orElseThrow().getBolumListesi().remove(bolum);
+        return enstitu;
+
+    }
 }

@@ -15,10 +15,10 @@ public class Ders {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long dersID;
     public String dersAdi;
-    @JsonIgnore
+   /* @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "bolumID")
-    public Bolum bolum;
+    public Bolum bolum;*/
 
     @OneToOne
     public DersRole dersRole;

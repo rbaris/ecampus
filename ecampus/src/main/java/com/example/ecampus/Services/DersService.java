@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,15 +22,21 @@ public class DersService {
     private final DersRepository dersRepository;
     private final DersRoleRepository dersRoleRepository;
 
-    public Ders getDersler(){
-        return (Ders) dersRepository.findAll();
+    public List<Ders> getDersler(){
+        return  dersRepository.findAll();
     }
     public Optional<Ders> getDerswithId(Long id){
         return dersRepository.findById(id);
     }
+
+    public Ders getDersById(Long id)
+    {
+        return  dersRepository.findBydersID(id);
+    }
     public Ders getDerswithName(String dersAdi){
         return dersRepository.findBydersAdi(dersAdi);
     }
+
     public Ders addDers(Ders ders){
         return dersRepository.save(ders);
     }
@@ -37,7 +44,7 @@ public class DersService {
         return dersRepository.findById(id).map(ders -> {
            ders.setDersRole(newDers.getDersRole());
            ders.setDersAdi(newDers.getDersAdi());
-           ders.setBolum(newDers.getBolum());
+           //ders.setBolum(newDers.getBolum());
            return dersRepository.save(ders);
         });
     }

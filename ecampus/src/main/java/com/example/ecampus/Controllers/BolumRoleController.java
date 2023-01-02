@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -15,7 +16,7 @@ public class BolumRoleController {
     private final BolumRoleService bolumRoleService;
 
     @GetMapping()
-    public ResponseEntity<?> getBolumroles(){
+    public ResponseEntity<List<BolumRole>> getBolumroles(){
         return ResponseEntity.ok(bolumRoleService.getAllBolumRoles());
     }
     @GetMapping("/{id}")
@@ -24,6 +25,6 @@ public class BolumRoleController {
     }
     @PostMapping()
     public ResponseEntity<BolumRole> addBolumRole(@RequestBody BolumRole bolumRole){
-        return ResponseEntity.ok(bolumRoleService.savebolumRole(bolumRole));
+        return ResponseEntity.ok(bolumRoleService.saveBolumRole(bolumRole));
     }
 }

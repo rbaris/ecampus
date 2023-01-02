@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface DersRepository extends JpaRepository<Ders,Long> {
 
     Ders findBydersAdi(String dersname);
+    Ders findBydersID(Long id);
+
 }

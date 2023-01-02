@@ -1,5 +1,6 @@
 package com.example.ecampus.Controllers;
 
+import com.example.ecampus.Models.Bolum;
 import com.example.ecampus.Models.Fakulte;
 import com.example.ecampus.Services.BolumService;
 import com.example.ecampus.Services.FakulteService;
@@ -7,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -21,7 +24,7 @@ public class FakulteController {
         return ResponseEntity.ok(fakulteService.getAllFakulteler());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Fakulte>> getFakulte(@RequestBody Long id){
+    public ResponseEntity<Optional<Fakulte>> getFakulte(@PathVariable Long id){
         return ResponseEntity.ok(fakulteService.getFakulte(id));
     }
     @PostMapping()
@@ -29,12 +32,31 @@ public class FakulteController {
         return ResponseEntity.ok(fakulteService.addFakulte(fakulte));
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Optional<Fakulte>> deleteFakulte(@RequestBody Long id){
+    public ResponseEntity<Optional<Fakulte>> deleteFakulte(@PathVariable Long id){
         return ResponseEntity.ok(fakulteService.deleteFakulte(id));
     }
     @PutMapping("{id}")
-    public ResponseEntity<Optional<Fakulte>> updateFakulte(@RequestBody Long id, Fakulte newFakulte){
+    public ResponseEntity<Optional<Fakulte>> updateFakulte(@PathVariable Long id,@RequestBody Fakulte newFakulte){
         return ResponseEntity.ok(fakulteService.updateFakulte(id, newFakulte));
     }
 
+    @GetMapping("/{id}/bolumler")
+    public ResponseEntity<List<Bolum>> getBolumByFakulte(@PathVariable Long id){
+        return ResponseEntity.ok(fakulteService.getBolumByFakulteId(id));
+    }
+    @PostMapping("/{id}/bolumler")
+    public ResponseEntity<String> addBolumByFakulte(@PathVariable Long id,@RequestBody String bolumAdi)
+    {
+        fakulteService.addBolumtoFakulte(bolumAdi,id);
+        return ResponseEntity.ok(bolumAdi);
+    }
+
+    @DeleteMapping("/{ida}/bolumler/{idb}")
+    public ResponseEntity<List<Bolum>> deleteBolumByFakulte(@PathVariable("ida") Long ida, @PathVariable("idb") Long idb)
+    {
+        fakulteService.deleteFakulteByBolumId(ida,idb);
+
+        return ResponseEntity.ok(fakulteService.getBolumByFakulteId(ida));
+
+    }
 }

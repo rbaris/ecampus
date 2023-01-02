@@ -23,4 +23,6 @@ public class DersKayit {
     @JoinColumn(name = "DersID")
     public Ders kaydedilecekDers;
 
+    public Boolean dersKayitDurum;
+
 }

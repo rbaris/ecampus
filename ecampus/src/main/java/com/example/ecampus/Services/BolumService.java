@@ -3,11 +3,13 @@ package com.example.ecampus.Services;
 import com.example.ecampus.Models.Bolum;
 import com.example.ecampus.Models.BolumRole;
 import com.example.ecampus.Models.Ders;
+import com.example.ecampus.Models.User;
 import com.example.ecampus.Repos.BolumRepository;
 import com.example.ecampus.Repos.BolumRoleRepository;
 import com.example.ecampus.Repos.DersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,8 +34,12 @@ public class BolumService {
         return bolumRepository.findAll();
     }
 
-    public Optional<Bolum> getBolum(Long id){
-        return bolumRepository.findById(id);
+    public Bolum getBolum(Long id){
+       Optional<Bolum> bolum = bolumRepository.findById(id);
+        if(bolum == null)
+            throw new UsernameNotFoundException("Username not found!");
+        return bolum.get();
+        //return bolumRepository.findById(id);
     }
 
     public Bolum getBolumwithName(String bolumAdi){

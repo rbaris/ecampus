@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,11 @@ public class FakulteService {
         log.info("Get All fakulteler...");
         return fakulteRepository.findAll();
     }
+    public List<Bolum> getBolumByFakulteId(Long id)
+    {
+        Optional<Fakulte> fakulte=fakulteRepository.findById(id);
+        return fakulte.orElseThrow().getBolumListesi();
+    }
     public Fakulte addFakulte(Fakulte fakulte){
         return fakulteRepository.save(fakulte);
     }
@@ -38,11 +44,11 @@ public class FakulteService {
     public Fakulte getFakultewithName(String fakulteName){
         return fakulteRepository.findByfakulteAdi(fakulteName);
     }
-    public void addBolumtoFakulte(String bolumAdi,String fakulteAdi){
-        log.info("{} bölümü {} fakülteye eklendi...", bolumAdi,fakulteAdi);
-        Fakulte fakulte = getFakultewithName(fakulteAdi);
+    public void addBolumtoFakulte(String bolumAdi,Long id){
+        log.info("{} bölümü {} fakülteye eklendi...", bolumAdi,id);
+        Optional<Fakulte> fakulte = getFakulte(id);
         Bolum bolum = bolumRepository.findBybolumAdi(bolumAdi);
-        if(bolum.toString().equals("Fakülte"))fakulte.getBolumListesi().add(bolum);
+        if(bolum.toString().equals("Fakülte"))fakulte.orElseThrow().getBolumListesi().add(bolum);
         else new Exception("bölüm fakülteye eklenemedi.");
     }
     public Optional<Fakulte> updateFakulte(Long id, Fakulte newFakulte){
@@ -58,4 +64,13 @@ public class FakulteService {
         return isRemoved;
     }
 
+    public Optional<Fakulte> deleteFakulteByBolumId(Long id,Long silinenId)
+    {
+
+        Optional<Fakulte> fakulte=fakulteRepository.findById(id);
+        Optional <Bolum> bolum =bolumRepository.findById(silinenId);
+        fakulte.orElseThrow().getBolumListesi().remove(bolum);
+        return fakulte;
+
+    }
 }

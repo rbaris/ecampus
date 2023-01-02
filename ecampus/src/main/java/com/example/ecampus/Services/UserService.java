@@ -1,6 +1,5 @@
 package com.example.ecampus.Services;
 
-import com.example.ecampus.DTOs.UserDTO;
 import com.example.ecampus.Models.Sozlesme;
 import com.example.ecampus.Models.User;
 import com.example.ecampus.Models.UserRole;
@@ -54,6 +53,15 @@ public class UserService implements UserDetailsService {
     {
         return userRepository.findByusername(username);
     }
+
+    public User getUserByOkulKimlikNo(String okulKimlikNo){return userRepository.findByOkulKimlikNo(okulKimlikNo);}
+    public List<User> getAllUserByRole(String rolename)
+    {
+        return userRepository.findAllByRoles_RoleName(rolename);
+
+    }
+
+
     public UserRole saveRole(UserRole role)
     {
         log.info("Saving role...");
@@ -61,7 +69,7 @@ public class UserService implements UserDetailsService {
         return role;
     }
 
-    public void  addRoleToUser(String username, String roleName)
+    public void addRoleToUser(String username, String roleName)
     {
         log.info("Adding {} role to user {}...", roleName,username);
         User user = getUser(username);
@@ -70,6 +78,19 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public User addRoleToUser(Long userId, String roleName)
+    {
+        User user = userRepository.findByUserID(userId);
+        UserRole role = userRoleRepository.findByroleName(roleName);
+        user.getRoles().add(role);
+        userRepository.save(user);
+        log.info("Adding {} role to user {}...", roleName,userId);
+
+        return user;
+
+    }
+
+
     public Sozlesme saveSozlesme(Sozlesme sozlesme)
     {
         log.info("Saving sozlesme...");
@@ -77,10 +98,17 @@ public class UserService implements UserDetailsService {
         return sozlesme;
     }
 
-    public void  addSozlesmeToUser(String username, String sozlesmeTitle)
+    public void  addSozlesmeToUser(Long id, String sozlesmeTitle)
     {
-        log.info("Adding {} sozlesme to user {}...", sozlesmeTitle,username);
-        User user = getUser(username);
+        log.info("Adding {} sozlesme to user {}...", sozlesmeTitle,id);
+        User user = getUserById(id);
+        Sozlesme sozlesme = sozlesmeRepository.findBytitle(sozlesmeTitle);
+        user.sozlesmeList.add(sozlesme);
+    }
+    public void  addSozlesmeToUserByID(Long id, String sozlesmeTitle)
+    {
+        log.info("Adding {} sozlesme to user {}...", sozlesmeTitle,id);
+        User user = getUserById(id);
         Sozlesme sozlesme = sozlesmeRepository.findBytitle(sozlesmeTitle);
         user.sozlesmeList.add(sozlesme);
     }
@@ -122,7 +150,33 @@ public class UserService implements UserDetailsService {
                     user.setEmail(newUser.getEmail());
                     user.setOkulKimlikNo(newUser.getOkulKimlikNo());
                     user.setTelno(newUser.getTelno());
+                    user.setDogumTarihi(newUser.getDogumTarihi());
+                    user.setKayitTarihi(newUser.getKayitTarihi());
+                    user.setDonemSayisi(newUser.getDonemSayisi());
                     return userRepository.save(user);
                 });
     }
+    public User addPersonelIK(User user)
+    {
+
+        if(user.getRoles().toString().equals("ROLE_PERSONEL")){
+
+            log.info("Adding user {}...",user);
+            userRepository.save(user);
+
+        }
+        return user;
+    }
+    public User add(User user)
+    {
+
+        if(user.getRoles().toString().equals("ROLE_PERSONEL")){
+
+            log.info("Adding user {}...",user);
+            userRepository.save(user);
+
+        }
+        return user;
+    }
+
 }

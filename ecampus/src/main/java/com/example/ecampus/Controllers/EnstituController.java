@@ -1,5 +1,6 @@
 package com.example.ecampus.Controllers;
 
+import com.example.ecampus.Models.Bolum;
 import com.example.ecampus.Models.Enstitu;
 import com.example.ecampus.Services.BolumService;
 import com.example.ecampus.Services.EnstituService;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -36,4 +38,27 @@ public class EnstituController {
     public ResponseEntity<Optional<Enstitu>> deleteEnstitu(@RequestBody Long id){
         return ResponseEntity.ok(enstituService.deleteEnstitu(id));
     }
+
+    @GetMapping("/{id}/bolumler")
+    public ResponseEntity<List<Bolum>> getBolumByEnstitu(@PathVariable Long id){
+        return ResponseEntity.ok(enstituService.getBolumByEnstituId(id));
+    }
+    @PostMapping("/{id}/bolumler")
+    public ResponseEntity<String> addBolumByEnstitu(@PathVariable Long id,@RequestBody String bolumAdi)
+    {
+        enstituService.addBolumtoEnstitu(bolumAdi,id);
+        return ResponseEntity.ok(bolumAdi);
+    }
+
+    @DeleteMapping("/{ida}/bolumler/{idb}")
+    public ResponseEntity<List<Bolum>> deleteBolumByEnstitu(@PathVariable("ida") Long ida, @PathVariable("idb") Long idb)
+    {
+        enstituService.deleteEnstituByBolumId(ida,idb);
+
+        return ResponseEntity.ok(enstituService.getBolumByEnstituId(ida));
+
+    }
+
+
+
 }

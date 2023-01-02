@@ -21,6 +21,8 @@ public class User {
     public String email;
     public String password;
     public String telno;
+    public String dogumTarihi,kayitTarihi;
+    public Long donemSayisi=null;
     @OneToMany(cascade = CascadeType.ALL)
     public List<Sozlesme> sozlesmeList;
     public String okulKimlikNo="";
