@@ -31,6 +31,11 @@ public class EnstituService {
     public Optional<Enstitu> getEnstitubyId(Long id){
         return enstituRepository.findById(id);
     }
+
+    public Enstitu getEnstitubyIdO(Long id){
+        return enstituRepository.findByEnstituID(id);
+    }
+
     public Enstitu getEnstituwithName(String name){
         return enstituRepository.findByenstituAdi(name);
     }

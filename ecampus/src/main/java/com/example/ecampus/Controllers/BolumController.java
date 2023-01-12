@@ -1,6 +1,7 @@
 package com.example.ecampus.Controllers;
 import com.example.ecampus.Models.Bolum;
 import com.example.ecampus.Models.BolumRole;
+import com.example.ecampus.Models.Ders;
 import com.example.ecampus.Services.BolumRoleService;
 import com.example.ecampus.Services.BolumService;
 import com.example.ecampus.Services.DersService;
@@ -47,5 +48,14 @@ public class BolumController {
 
     }
 
+    @PostMapping("/{id}/ders")
+    public ResponseEntity<?> addDerstoBolum(@PathVariable Long id, @RequestBody Ders ders){
+        Bolum bolum = bolumService.getBolum(id);
+        bolum.getDersListesi().add(ders);
+        bolumService.addBolum(bolum);
+        return ResponseEntity.ok(bolum);
+
+
+    }
 
 }

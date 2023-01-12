@@ -15,7 +15,7 @@ public class Bolum {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long bolumID;
     public String bolumAdi;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     List<Ders> dersListesi;
     @OneToOne
     BolumRole bolumRole;

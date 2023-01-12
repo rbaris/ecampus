@@ -39,6 +39,9 @@ public class SecurityConfiguration {
                 .antMatchers("/sozlesmeler").permitAll();  */
 
         //http.authorizeRequests().antMatchers("/**").permitAll();
+
+
+
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/login").permitAll();
         http.authorizeRequests().antMatchers( "/dersler").hasAnyAuthority("ROLE_USER","ROLE_ADMIN");
 
@@ -87,7 +90,13 @@ public class SecurityConfiguration {
         http.authorizeRequests().antMatchers("/derskayitlari/**").hasAnyAuthority("ROLE_OGRENCI","ROLE_ADMIN","ROLE_OGRENCI_ISLERI");
         //http.authorizeRequests().antMatchers("/derskayitlari").hasAnyAuthority("ROLE_OGRENCI_ISLERI","ROLE_ADMIN");
         //http.authorizeRequests().antMatchers("/derskayitlari/**").hasAnyAuthority("ROLE_OGRENCI_ISLERI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/sozlesmeler").hasAnyAuthority("ROLE_INSAN_KAYNAKLARI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/sozlesmeler/**").hasAnyAuthority("ROLE_INSAN_KAYNAKLARI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/users/sozlesmeler").hasAnyAuthority("ROLE_INSAN_KAYNAKLARI","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/users/sozlesmeler/**").hasAnyAuthority("ROLE_INSAN_KAYNAKLARI","ROLE_ADMIN");
 
+        http.authorizeRequests().antMatchers( "/bolumler/{id}/ders").hasAnyAuthority("ROLE_FAKULTE_YONETICI","ROLE_ENSTITU_YONETICI","ROLE_ADMIN","ROLE_OGRENCI","ROLE_OGRENCI_ISLERI");
+        //http.authorizeRequests().antMatchers( "/bolumler/{id}/ders").hasAnyAuthority("ROLE_FAKULTE_YONETICI","ROLE_ENSTITU_YONETICI","ROLE_ADMIN");
 
 
 

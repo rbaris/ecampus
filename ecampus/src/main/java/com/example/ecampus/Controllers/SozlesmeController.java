@@ -19,15 +19,15 @@ public class SozlesmeController {
         return ResponseEntity.ok(sozlesmeService.getSozlesmeler());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Sozlesme> getSozlesmewithID(@RequestBody Long id){
+    public ResponseEntity<Sozlesme> getSozlesmewithID(@PathVariable Long id){
         return ResponseEntity.ok(sozlesmeService.getSozlesme(id));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Optional<Sozlesme>> updateSozlesme(@RequestBody Long id, Sozlesme newSozlesme){
+    public ResponseEntity<Optional<Sozlesme>> updateSozlesme(@PathVariable Long id, Sozlesme newSozlesme){
         return ResponseEntity.ok(sozlesmeService.updateSozlesme(id, newSozlesme));
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Optional<Sozlesme>> deleteSozlesme(@RequestBody Long id){
+    public ResponseEntity<Optional<Sozlesme>> deleteSozlesme(@PathVariable Long id){
         return ResponseEntity.ok(sozlesmeService.deleteSozlesme(id));
     }
     @PostMapping()

@@ -20,6 +20,6 @@ public class Ders {
     @JoinColumn(name = "bolumID")
     public Bolum bolum;*/
 
-    @OneToOne
+    @ManyToOne
     public DersRole dersRole;
 }

@@ -76,15 +76,20 @@ public class EcampusApplication {
 
 
 
+            userService.saveUser(new User(null,"melih","melih@email.com","12345","0531346235","20-10-2000","20-10-2020",null,new ArrayList<>(),"21345431",new ArrayList<>()));
 
-            userService.saveUser(new User(null,"baris","baris@email.com","12345","0531346235","20-10-2000","20-10-2020",null,new ArrayList<>(),"21345431",new ArrayList<>()));
-            userService.saveUser(new User(null,"fatih","cılgınjojuk@email.com","12345","1","21-5-2000","21-2-2020",null,new ArrayList<>(),"1",new ArrayList<>()));
-            userService.saveUser(new User(null,"taha","asijojuk@email.com","12345","2","28-2-2000","28-2-2020",null,new ArrayList<>(),"2",new ArrayList<>()));
+            userService.saveUser(new User(null,"rafet","rafet@email.com","12345","0531346235","20-10-2000","20-10-2020",null,new ArrayList<>(),"21345431",new ArrayList<>()));
+            userService.saveUser(new User(null,"fatih","fatih@email.com","12345","1","21-5-2000","21-2-2020",null,new ArrayList<>(),"1",new ArrayList<>()));
+            userService.saveUser(new User(null,"taha","taha@email.com","12345","2","28-2-2000","28-2-2020",null,new ArrayList<>(),"2",new ArrayList<>()));
 
             userService.addSozlesmeToUser(1L,"Çalışma İzni");
-            userService.addRoleToUser("baris", "ROLE_USER");
-            userService.addRoleToUser("baris", "ROLE_ADMIN");
-            userService.addRoleToUser("baris", "ROLE_INSAN_KAYNAKLARI");
+            userService.addRoleToUser("rafet", "ROLE_USER");
+            userService.addRoleToUser("rafet", "ROLE_ADMIN");
+            userService.addRoleToUser("rafet", "ROLE_INSAN_KAYNAKLARI");
+            userService.addRoleToUser("melih", "ROLE_ADMIN");
+            userService.addRoleToUser("melih", "ROLE_OGRENCI_ISLERI");
+
+
 
             userService.addRoleToUser("fatih", "ROLE_OGRENCI");
             userService.addRoleToUser("fatih", "ROLE_PERSONEL");

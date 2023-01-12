@@ -45,10 +45,16 @@ public class FakulteController {
         return ResponseEntity.ok(fakulteService.getBolumByFakulteId(id));
     }
     @PostMapping("/{id}/bolumler")
-    public ResponseEntity<String> addBolumByFakulte(@PathVariable Long id,@RequestBody String bolumAdi)
+    public ResponseEntity <Fakulte> addBolumByFakulte(@PathVariable Long id,@RequestBody Bolum bolum)
     {
-        fakulteService.addBolumtoFakulte(bolumAdi,id);
-        return ResponseEntity.ok(bolumAdi);
+        Fakulte fakulte=fakulteService.getFakulteO(id);
+        fakulte.getBolumListesi().add(bolum);
+        fakulteService.addFakulte(fakulte);
+        return ResponseEntity.ok(fakulte);
+
+
+        /*fakulteService.addBolumtoFakulte(bolumAdi,id);
+        return ResponseEntity.ok(bolumAdi);*/
     }
 
     @DeleteMapping("/{ida}/bolumler/{idb}")

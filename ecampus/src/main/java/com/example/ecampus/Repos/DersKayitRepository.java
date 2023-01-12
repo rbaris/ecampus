@@ -10,5 +10,7 @@ import java.util.List;
 public interface DersKayitRepository extends JpaRepository<DersKayit,Long> {
     List<DersKayit> findAllByDersinOgrencisi_userID(Long id);
     DersKayit findBydersKayitID(Long id);
-    DersKayit findByDersinOgrencisi_UserID(Long id);
+    List<DersKayit> findAllByDersinOgrencisi_OkulKimlikNo(String kimlikno);
+
+    List<DersKayit> findAllByDersinOgrencisi_OkulKimlikNoEqualsIgnoreCase(String kimlikNo);
 }

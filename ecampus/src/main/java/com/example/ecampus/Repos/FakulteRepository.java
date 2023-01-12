@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface FakulteRepository extends JpaRepository<Fakulte,Long> {
 
     Fakulte findByfakulteAdi(String fakulteName);
+    Fakulte findByFakulteID(Long id);
 }

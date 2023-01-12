@@ -41,6 +41,10 @@ public class FakulteService {
     public Optional<Fakulte> getFakulte(Long id){
         return fakulteRepository.findById(id);
     }
+    public Fakulte getFakulteO(Long id){
+        return fakulteRepository.findByFakulteID(id);
+    }
+
     public Fakulte getFakultewithName(String fakulteName){
         return fakulteRepository.findByfakulteAdi(fakulteName);
     }

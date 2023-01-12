@@ -18,10 +18,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.websocket.server.PathParam;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +33,12 @@ public class UserController {
     @GetMapping()
     public ResponseEntity<?> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @GetMapping("/{id}/roles")
+    public Collection<UserRole> getUsersAllRoles(@PathVariable Long id){
+
+        return userService.getUsersRolesByUserId(id);
     }
 
     @GetMapping("/{id}")
@@ -86,7 +89,7 @@ public class UserController {
         return ResponseEntity.ok(u);
 
     }
-    //@Secured("ROLE_INSAN_KAYNAKLARI")
+    @Secured("ROLE_INSAN_KAYNAKLARI")
     @PostMapping("/personeller")
     public User personelEkleIK(@RequestBody User user)
     {
@@ -123,9 +126,14 @@ public class UserController {
 
     @Secured("ROLE_INSAN_KAYNAKLARI")
     @PostMapping("/{id}/sozlesmeler")
-    public ResponseEntity<?> addSozlesmetoUserIK(@PathVariable Long Id,@RequestBody String title){
-        userService.addSozlesmeToUserByID(Id,title);
+    public ResponseEntity<?> addSozlesmetoUserIK(@PathVariable Long id,@RequestBody String title){
+        userService.addSozlesmeToUserByID(id,title);
         return ResponseEntity.ok("Succesful !");
+    }
+
+    @GetMapping("/{id}/sozlesmeler")
+    public List<Sozlesme> getSozlesmelerByUserId(@PathVariable Long id){
+        return userService.getUsersSozlesmelerByUserId(id);
     }
 
 
@@ -143,17 +151,17 @@ public class UserController {
     public ResponseEntity<List<DersKayit>> getUsersDerskayits(@PathVariable Long id){
         return ResponseEntity.ok(dersKayitService.findDersKayitByID(id));
     }*/
- /*   @GetMapping("/{kimlikNo}/derskayitlari")
-    public ResponseEntity<List<DersKayit>> getderstkayitForOgr(@PathVariable String kimlikNo){
-        List<DersKayit> newkayitlist = dersKayitService.getDersKayitlari();
-        newkayitlist.stream().filter(a->kimlikNo.equals(newkayitlist.));
-    }*/
-
    /* @GetMapping("/ogrenci/{okulKimlikNo}/derskayitlari")
     public ResponseEntity<List<DersKayit>> getogrDerskayitlar(@PathVariable String okulKimlikNo){
         return ResponseEntity.ok(dersKayitService.findDersKayitToOgrenci());
 
     }*/
+
+    @GetMapping("/{kimlikno}/derskayitlari")
+    public ResponseEntity<List<DersKayit>> getDersKayitlariByKimlikNo(@PathVariable String kimlikno){
+        return ResponseEntity.ok(dersKayitService.getAllDerskayitlaribykimliknoo(kimlikno));
+    }
+
 
     @Data
     class UserRoleForm

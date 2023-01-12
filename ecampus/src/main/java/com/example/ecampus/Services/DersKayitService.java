@@ -51,7 +51,7 @@ public class DersKayitService {
     public DersKayit addOnaylayantoDersKayit(Long dersKayitID,Long id) throws ClassNotFoundException {
         DersKayit dersKayit = dersKayitRepository.findBydersKayitID(dersKayitID);
         User onaylayanUser= userService.getUserById(id);
-        if(onaylayanUser.getRoles().toString().equals("ROLE_OGRENCI_ISLERI")) {
+        if(onaylayanUser.getRoles().toString().contains("ROLE_OGRENCI_ISLERI")) {
             dersKayit.onaylayanUser = onaylayanUser;
             dersKayit.setDersKayitDurum(Boolean.TRUE);
             dersKayitRepository.save(dersKayit);
@@ -63,7 +63,7 @@ public class DersKayitService {
     public DersKayit addKaydedilecekUsertoDersKayit(Long dersKayitID,Long id) throws ClassNotFoundException {
         DersKayit dersKayit = dersKayitRepository.findBydersKayitID(dersKayitID);
         User kaydedilecekUser = userService.getUserById(id);
-        if(kaydedilecekUser.getRoles().toString().equals("ROLE_OGRENCI"))
+        if(kaydedilecekUser.getRoles().toString().contains("ROLE_OGRENCI"))
         {
             dersKayit.dersinOgrencisi = kaydedilecekUser;
             dersKayitRepository.save(dersKayit);
@@ -111,4 +111,14 @@ public class DersKayitService {
     {
      return dersKayitRepository.findAllByDersinOgrencisi_userID(id);
     }
+
+    public List<DersKayit> getAllDerskayitlaribykimlikno(String kimlikno){
+        return dersKayitRepository.findAllByDersinOgrencisi_OkulKimlikNo(kimlikno);
+    }
+    public List<DersKayit> getAllDerskayitlaribykimliknoo(String kimlikno){
+        return dersKayitRepository.findAllByDersinOgrencisi_OkulKimlikNoEqualsIgnoreCase(kimlikno);
+    }
+
+
+
 }

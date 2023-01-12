@@ -13,6 +13,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Data
 @Entity
+
 public class DersRole {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long dersRoleID;

@@ -19,7 +19,7 @@ public class DersController {
         return ResponseEntity.ok(dersService.getDersler());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Ders>> getDers(@RequestBody Long id){
+    public ResponseEntity<Optional<Ders>> getDers(@PathVariable Long id){
         return ResponseEntity.ok(dersService.getDerswithId(id));
     }
     @PostMapping()
@@ -27,11 +27,11 @@ public class DersController {
         return ResponseEntity.ok(dersService.addDers(ders));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Optional<Ders>> guncelleDers(@RequestBody Long id, Ders newDers){
+    public ResponseEntity<Optional<Ders>> guncelleDers(@PathVariable Long id,@RequestBody Ders newDers){
         return ResponseEntity.ok(dersService.updateDers(id, newDers));
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Optional<Ders>> silDers(@RequestBody Long id){
+    public ResponseEntity<Optional<Ders>> silDers(@PathVariable Long id){
         return ResponseEntity.ok(dersService.deleteDers(id));
     }
 

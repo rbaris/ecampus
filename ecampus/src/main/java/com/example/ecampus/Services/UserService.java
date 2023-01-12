@@ -179,4 +179,16 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public Collection<UserRole> getUsersRolesByUserId(Long id){
+        User user = userRepository.findByUserID(id);
+
+        return user.getRoles();
+    }
+
+    public List<Sozlesme> getUsersSozlesmelerByUserId(Long id){
+        User user = userRepository.findByUserID(id);
+
+        return user.getSozlesmeList();
+    }
+
 }
