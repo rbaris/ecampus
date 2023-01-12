@@ -1,12 +1,12 @@
 # ecampus
 
-  Okul yönetim sistemleri, eğitim kurumlarının kurum içi personel, öğrenci takibini sağlamak, kuruma, kişilere ait verileri düzenlemek ve öğrenci ve personellerin belirli işlemleri gerçekleştirebilmesi için kullanılan yönetim araçlarıdır. Bu projede örnek bir okul yönetim sistemi için bir web servisi yazılmıştır.
+Okul yönetim sistemleri, eğitim kurumlarının kurum içi personel, öğrenci takibini sağlamak, kuruma, kişilere ait verileri düzenlemek ve öğrenci ve personellerin belirli işlemleri gerçekleştirebilmesi için kullanılan yönetim araçlarıdır. Bu projede örnek bir okul yönetim sistemi için bir web servisi yazılmıştır.
 
 ### Projedeki ekip arkadaşlarım 
 
-+[Fatih Aydoğdu](https://github.com/MFatihAydogdu)
++ [Fatih Aydoğdu](https://github.com/MFatihAydogdu)
 + Mehmet Ali Salkım
-+[Melih Aksan](https://github.com/figeros)
++ [Melih Aksan](https://github.com/figeros)
 
 #### Kullanıcı Hikayeleri
 
